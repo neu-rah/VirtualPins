@@ -50,7 +50,7 @@ void loop() {
 
 The virtualization of pins and protocol abstration is similar (at a lower level) to a network, where the arduino acts as a client (master) driving some hardware server (Slave) over a network medium (SPI, I2C, etc..).
 
-With this base concept we can then make the arduino MCU acta as a network server (slave) publishing its own harware pins over a network to be used by another client.
+With this base concept we can then make the arduino MCU act as a network server (slave) publishing its own harware pins over a network to be used by another client.
 
 The slave only runs the VPortServer sketch while the client has the specific hardware driver and uses it as if it was wired to direct hardware pins.
 
