@@ -6,7 +6,6 @@ char vpins_data[VPINS_SZ];
 bool portBranch::vpins_running=false;
 
 void vpins_init() {
-	Serial.println("vpins init");
 	if (portBranch::running()) return;
 	for(char n=0;n<VPINS_SZ;n++)
 		vpins_data[n]=0;
