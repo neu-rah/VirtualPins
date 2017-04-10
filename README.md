@@ -2,7 +2,7 @@
 
 ## Resume
 
-This is my proposal for sligt change on arduino digital pins handling in order to provider user with virtual-pins.
+This is my proposal for slight change on arduino digital pins handling in order to provider user with virtual-pins.
 
 This implementation is Arduino environment specific, but the concept of virtual pins is generic and can be applyed to all digital electronics and drivers that uses bit setting and with proper care to all port IO and Buses (SPI, I2C, Serial, Etc..)
 
