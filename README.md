@@ -413,14 +413,34 @@ This file was not ported from the old version yet and i expect it to be **a mess
 
 Having a user specified amount of virtual ports brings along the concept of software ports. That is, ports that do not interface to hardware but instead correspond to memory to be exported from a particular sketch. Allowing data/record sharing over a network.
 
+> This is very interesting and its just a matter of deepening a bit more on the virtual pins side and break away from the current model of following AVR maps.
+> The maps mmay stioll exist for AVR's but checking pin range on entry rules out the virtual pins cases
+> It is much more abrangent, because all boards define the number ou native hardware pins
+> and it only move the current performance burden from the end of the functions to the beggining.
+> I can live with that.
+
 use pin 0 to denote, not used (disables future usage of pin0/reset for other purposes)
+
+> Pin still available on drirect IO if you really nead it
+> Make pinMode and digital read/write ignore the request on pin 0
+> (require extra boillerplate)
 
 signal reverse pin logic by using negative numbers
 
-_this requires the library to respect the conventions_
+> Negate the logic on negative pins (require extra boillerplate)
 
 Extend this to PCINT (is there an arduino standard way of doing PCInt?) if not the see [PCINT Library](https://github.com/neu-rah/PCINT)
 
 because some of extension boards support pin direction, pull-ups, reverse logic and even interrupt lines (like the PCINT schema)
 
 PCINT here can be software emulated for non PCINT supporting extensions like the raw shift registers.
+
+> only if we have a standard (arduino) way of doing it
+
+However current implementation does not allow exploitation of all the features on an abstract level. Just because we started with AVR pin/ports.
+
+> We get what we can presserving compatibility.
+
+What about analog inputs? there are pin extension like MCP3208, should we virtualize analog IO too?
+
+> Maybe another day
