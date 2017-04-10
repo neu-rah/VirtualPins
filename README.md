@@ -10,7 +10,15 @@ Implementing abstraction of hardware connection making it seamless of the medium
 
 This abstrations allows the usage of libraries that are build for direct pin interfacing like the standard arduino Liquid Cristal library to use an LCD wired over shift-registers or I2C bus, with no need to change the library.
 
+This implementation is for all board variants that include the /home/azevedo/github/Arduino.1.8.3/hardware/arduino/avr/variants/standard/pins_arduino.h (as a demo/test)
+
+tested on arduino nano and raw atmega328p.
+
 **Blinking a LED wired on a shift register**
+
+using spi extension scketch at: [SPI IO Extension](http://www.r-site.net/site/struct.asp?sid=264041713_83195617&lang=en&at=//op[@id=%272989%27])
+
+![SPI IO Extension](http://www.r-site.net/media/img/pic_5620.png)
 
 ```c++
 #include <Arduino.h>
@@ -165,11 +173,24 @@ Here are most of the PROGMEM memory impact of virtual-pins changes.
 
 I've been sticking to existing maps and ways of doing things (at least on the original IDE).
 
-But i'm not sure if a more independent way of doing the map would be prefereable for porting this to other devices like due, stm, esp, etc... eventually making the list of virtual pins dynamic.
+But i'm not sure if a more independent way of doing the map would be prefereable for porting this to other devices like due, stm, esp, etc... eventually making the list of virtual pins static user allocable instead of the fixed 4 ports.
 
-As it it makes easy to use virtual pins even if you use the arduino maps.
+As it is, it makes easy to use virtual pins even if you use the arduino maps.
+
+so thing like this
+
+```c++
+DDRD|=1<<2;
+DR_VPA|=1<<2;
+```
+
+are still valid for virtual ports as they are for hardware ports.
+
+Direct IO on virtual ports stills requires a call to the ports/branch dispatch function.
 
 Also I have some spacing on ports maps to avoid bumping with existing ports on processors like 2560... but I'm not sure if it is still needed.
+
+Depending on the strategy selected this will probably change to more adequate maps for each board.
 
 **extended port_to_mode_PGM map with:**
 _24 bytes flash_
