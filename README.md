@@ -416,18 +416,27 @@ This file was not ported from the old version yet and i expect it to be **a mess
 Having a user specified amount of virtual ports brings along the concept of software ports. That is, ports that do not interface to hardware but instead correspond to memory to be exported from a particular sketch. Allowing data/record sharing over a network.
 
 > This is very interesting and its just a matter of deepening a bit more on the virtual pins side and break away from the current model of following AVR maps.
+
 > The maps may still exist for AVR's but checking pin range on entry rules out the virtual pins cases
+
 >    or board should supply a isVpinPin::Pin->Bool function
+
 >    as a matter of fact they do provide the oposite isPin::Pin->Bool that wworks provided we do not add vpins to existing maps
+
 >    hmmm...
+
 > It is much more abrangent, because all boards define the number ou native hardware pins
+
 > and it only moves the current performance burden from the end of the functions to the begining.
+
 > I can live with that.
 
 use pin 0 to denote, not used (disables future usage of pin0/reset for other purposes)
 
 > Pin still available on drirect IO if you really need it
+
 > Make pinMode and digital read/write ignore the request on pin 0
+
 > (require extra boillerplate => if (pin) ...)
 
 signal reverse pin logic by using negative pin numbers
