@@ -374,3 +374,53 @@ _32 bytes flash_
 	NOT_ON_TIMER,
 #endif
 ```
+
+## Extension
+
+In adition to this modifications, some libraries have to be included to interface virtual pins with medium type.
+
+currently available:
+
+- [VPinsSPI](https://github.com/neu-rah/VPinsSPI)
+- [VPinsI2C](https://github.com/neu-rah/VPinsI2C)
+
+Covering the cases of generic SPI IO and I2C output boards
+
+[This board](http://www.ebay.com/itm/IIC-I2C-TWI-SPI-Serial-Interface-Board-Module-Port-for-Arduino-1602LCD-Display-/161245616356?hash=item258afcd8e4:g:nf0AAOSwZQRYgIMA) work with the generic drive, but providing a customized version allows the usage of some board features like setting pins as input or activating pull-ups.
+
+![LCD adaptor based on PCF8574T](https://ecs7.tokopedia.net/img/product-1/2016/5/2/7117852/7117852_235e964b-1e42-4fac-a795-9c8ff42f2184.jpg)
+
+Based on
+[PCF8574T: Remote 8-bit I/O expander for I²C‑bus with interrupt](http://www.nxp.com/products/interfaces/ic-bus-portfolio/ic-general-purpose-i-o/remote-8-bit-i-o-expander-for-icbus-with-interrupt:PCF8574T)
+
+This specialization can be provided by a derived class, specific to the hardware/family.
+
+The same for [8-Bit I/O Expander with SPI Interface](https://www.eeweb.com/company-news/microchip/8-bit-io-expander-with-spi-interface)
+
+So we can use a lot of devices with default media implementations and can customize specific devices to take full advantage of extra features.
+
+Because the media types are less then the number of devices that can be atached to it and because most media can work with default implementation, I think its a good trade for not having to rewrite libraries.
+
+**Other libs**
+
+- [VPortServer](https://github.com/neu-rah/VPortServer)
+
+This lib provides the avr server version, allowing the AVR to share its pins over the I2C bus.
+
+This file was not ported from the old version yet and i expect it to be **a mess** right now.
+
+## Considerations
+
+Having a user specified ammount of virtual ports brings along the concept of software ports. That is, ports that do not interface to hardware but instead correspond to memory to be exported from a particular sketch. Allowing data/record sharing over a network.
+
+use pin 0 to denote, not used (disables future usage of pin0/reset for other purposes)
+
+signal reverse pin logic by using negative numbers
+
+_this requires the library to respect the conventions_
+
+Extend this to PCINT (is there an arduino standard way of doing PCInt?) if not the see [PCINT Library](https://github.com/neu-rah/PCINT)
+
+because some of extension boards support pin directon, pullups, reverse logic and even interrupt lines (like the PCINT schema)
+
+PCINT here can be software emulated for non PCINT suporting extensions like the raw shift registers.
