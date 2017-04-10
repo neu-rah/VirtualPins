@@ -4,11 +4,11 @@
 
 This is my proposal for slight change on arduino digital pins handling in order to provider user with virtual-pins.
 
-This implementation is Arduino environment specific, but the concept of virtual pins is generic and can be applyed to all digital electronics and drivers that uses bit setting and with proper care to all port IO and Buses (SPI, I2C, Serial, Etc..)
+This implementation is Arduino environment specific, but the concept of virtual pins is generic and can be applied to all digital electronics and drivers that uses bit setting and with proper care to all port IO and Buses (SPI, I2C, Serial, Etc..)
 
 Implementing abstraction of hardware connection making it seamless of the medium. With virtual pins we can map pins of I2C or SPI chips into the arduino environment and use them as common arduino pins.
 
-This abstrations allows the usage of libraries that are build for direct pin interfacing like the standard arduino Liquid Cristal library to use an LCD wired over shift-registers or I2C bus, with no need to change the library.
+This abstractions allows the usage of libraries that are build for direct pin interfacing like the standard arduino Liquid Cristal library to use an LCD wired over shift-registers or I2C bus, with no need to change the library.
 
 This implementation is for all board variants that include the hardware/arduino/avr/variants/standard/pins_arduino.h file (as a demo/test).
 
@@ -16,7 +16,7 @@ tested on arduino nano and raw atmega328p.
 
 **Blinking a LED wired on a shift register**
 
-using spi extension scketch at: [SPI IO Extension](http://www.r-site.net/site/struct.asp?sid=264041713_83195617&lang=en&at=//op[@id=%272989%27])
+using SPI extension sketch at: [SPI IO Extension](http://www.r-site.net/site/struct.asp?sid=264041713_83195617&lang=en&at=//op[@id=%272989%27])
 
 ![SPI IO Extension](http://www.r-site.net/media/img/pic_5620.png)
 
@@ -28,7 +28,7 @@ Virtual pins library
 blinking a led wired over an SPI shift register
 */
 
-#include <SPI.h>// <---<< we will use this midia
+#include <SPI.h>// <---<< we will use this media
 #include <VPinsSPI.h>//<-- with this driver
 #include <debug.h>
 
@@ -56,14 +56,14 @@ void loop() {
 
 ### Possibilities
 
-The virtualization of pins and protocol abstration is similar (at a lower level) to a network, where the arduino acts as a client (master) driving some hardware server (Slave) over a network medium (SPI, I2C, etc..).
+The virtualization of pins and protocol abstraction is similar (at a lower level) to a network, where the arduino acts as a client (master) driving some hardware server (Slave) over a network medium (SPI, I2C, etc..).
 
-With this base concept we can then make the arduino MCU act as a network server (slave) publishing its own harware pins over a network to be used by another client.
+With this base concept we can then make the arduino MCU act as a network server (slave) publishing its own hardware pins over a network to be used by another client.
 
 The slave only runs the VPortServer sketch while the client has the specific hardware driver and uses it as if it was wired to direct hardware pins.
 
 This is valid on the arduino environment for libraries that use the arduino API to change pin status.
-For libraries that do directport IO its a matter of converting them to use the VirtualPins port IO.
+For libraries that do direct port IO its a matter of converting them to use the VirtualPins port IO.
 
 ### Getting wild
 
@@ -74,7 +74,7 @@ A server can also publish its own virtual pins...
 
 ### keeping it simple
 
-This is a low level harware network, no arbitration is provided at this level (other than the present on the used medium), so this is not indicated for concurrent access to a device.
+This is a low level hardware network, no arbitration is provided at this level (other than the present on the used medium), so this is not indicated for concurrent access to a device.
 
 I leave that for another layer.
 
@@ -165,7 +165,7 @@ void vpins_init() {
 
 ### changes to variants/standard/pins_arduino.h
 
-This part was coded for an older IDE, it still works but I have not revided it.
+This part was coded for an older IDE, it still works but I have not revised it.
 
 Total 160 bytes on flash for extending the maps with more 32 IO pins.
 
@@ -173,7 +173,7 @@ Here are most of the PROGMEM memory impact of virtual-pins changes.
 
 I've been sticking to existing maps and ways of doing things (at least on the original IDE).
 
-But i'm not sure if a more independent way of doing the map would be prefereable for porting this to other devices like due, stm, esp, etc... eventually making the list of virtual pins static user allocable instead of the fixed 4 ports.
+But I'm not sure if a more independent way of doing the map would be preferable for porting this to other devices like due, stm, esp, etc... eventually making the list of virtual pins static user allocable instead of the fixed 4 ports.
 
 As it is, it makes easy to use virtual pins even if you use the arduino maps.
 
@@ -377,7 +377,7 @@ _32 bytes flash_
 
 ## Extension
 
-In adition to this modifications, some libraries have to be included to interface virtual pins with medium type.
+In addition to this modifications, some libraries have to be included to interface virtual pins with medium type.
 
 currently available:
 
@@ -399,7 +399,7 @@ The same for [8-Bit I/O Expander with SPI Interface](https://www.eeweb.com/compa
 
 So we can use a lot of devices with default media implementations and can customize specific devices to take full advantage of extra features.
 
-Because the media types are less then the number of devices that can be atached to it and because most media can work with default implementation, I think its a good trade for not having to rewrite libraries.
+Because the media types are less then the number of devices that can be attached to it and because most media can work with default implementation, I think its a good trade for not having to rewrite libraries.
 
 **Other libs**
 
@@ -411,7 +411,7 @@ This file was not ported from the old version yet and i expect it to be **a mess
 
 ## Considerations
 
-Having a user specified ammount of virtual ports brings along the concept of software ports. That is, ports that do not interface to hardware but instead correspond to memory to be exported from a particular sketch. Allowing data/record sharing over a network.
+Having a user specified amount of virtual ports brings along the concept of software ports. That is, ports that do not interface to hardware but instead correspond to memory to be exported from a particular sketch. Allowing data/record sharing over a network.
 
 use pin 0 to denote, not used (disables future usage of pin0/reset for other purposes)
 
@@ -421,6 +421,6 @@ _this requires the library to respect the conventions_
 
 Extend this to PCINT (is there an arduino standard way of doing PCInt?) if not the see [PCINT Library](https://github.com/neu-rah/PCINT)
 
-because some of extension boards support pin directon, pullups, reverse logic and even interrupt lines (like the PCINT schema)
+because some of extension boards support pin direction, pull-ups, reverse logic and even interrupt lines (like the PCINT schema)
 
-PCINT here can be software emulated for non PCINT suporting extensions like the raw shift registers.
+PCINT here can be software emulated for non PCINT supporting extensions like the raw shift registers.
