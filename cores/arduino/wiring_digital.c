@@ -25,6 +25,9 @@
 #define ARDUINO_MAIN
 #include "wiring_private.h"
 #include "pins_arduino.h"
+#ifdef USE_VIRTUAL_PINS
+	#include "virtual_pins.h"
+#endif
 
 void pinMode(uint8_t pin, uint8_t mode)
 {
@@ -38,7 +41,7 @@ void pinMode(uint8_t pin, uint8_t mode)
 	reg = portModeRegister(port);
 	out = portOutputRegister(port);
 
-	if (mode == INPUT) { 
+	if (mode == INPUT) {
 		uint8_t oldSREG = SREG;
                 cli();
 		*reg &= ~bit;
@@ -56,6 +59,13 @@ void pinMode(uint8_t pin, uint8_t mode)
 		*reg |= bit;
 		SREG = oldSREG;
 	}
+	#ifdef USE_VIRTUAL_PINS
+		if (pin>=NUM_DIGITAL_PINS) {//then its a virtual pin...
+			vpins_mode(port);
+		}
+		//no need to update the output/pull-up because virtuals pins usually dont have
+		//TODO: when in compat mode do the pull-up update
+	#endif
 }
 
 // Forcing this inline keeps the callers from having to push their own stuff
@@ -85,15 +95,15 @@ static void turnOffPWM(uint8_t timer)
 		#if defined(TCCR1A) && defined(COM1C1)
 		case TIMER1C:   cbi(TCCR1A, COM1C1);    break;
 		#endif
-		
+
 		#if defined(TCCR2) && defined(COM21)
 		case  TIMER2:   cbi(TCCR2, COM21);      break;
 		#endif
-		
+
 		#if defined(TCCR0A) && defined(COM0A1)
 		case  TIMER0A:  cbi(TCCR0A, COM0A1);    break;
 		#endif
-		
+
 		#if defined(TCCR0A) && defined(COM0B1)
 		case  TIMER0B:  cbi(TCCR0A, COM0B1);    break;
 		#endif
@@ -103,7 +113,7 @@ static void turnOffPWM(uint8_t timer)
 		#if defined(TCCR2A) && defined(COM2B1)
 		case  TIMER2B:  cbi(TCCR2A, COM2B1);    break;
 		#endif
-		
+
 		#if defined(TCCR3A) && defined(COM3A1)
 		case  TIMER3A:  cbi(TCCR3A, COM3A1);    break;
 		#endif
@@ -116,17 +126,17 @@ static void turnOffPWM(uint8_t timer)
 
 		#if defined(TCCR4A) && defined(COM4A1)
 		case  TIMER4A:  cbi(TCCR4A, COM4A1);    break;
-		#endif					
+		#endif
 		#if defined(TCCR4A) && defined(COM4B1)
 		case  TIMER4B:  cbi(TCCR4A, COM4B1);    break;
 		#endif
 		#if defined(TCCR4A) && defined(COM4C1)
 		case  TIMER4C:  cbi(TCCR4A, COM4C1);    break;
-		#endif			
+		#endif
 		#if defined(TCCR4C) && defined(COM4D1)
 		case TIMER4D:	cbi(TCCR4C, COM4D1);	break;
-		#endif			
-			
+		#endif
+
 		#if defined(TCCR5A)
 		case  TIMER5A:  cbi(TCCR5A, COM5A1);    break;
 		case  TIMER5B:  cbi(TCCR5A, COM5B1);    break;
@@ -160,6 +170,11 @@ void digitalWrite(uint8_t pin, uint8_t val)
 	}
 
 	SREG = oldSREG;
+	#ifdef USE_VIRTUAL_PINS
+		if (pin>=NUM_DIGITAL_PINS) {//then its a virtual pin...
+			vpins_out(port);
+		}
+	#endif
 }
 
 int digitalRead(uint8_t pin)
@@ -173,6 +188,11 @@ int digitalRead(uint8_t pin)
 	// If the pin that support PWM output, we need to turn it off
 	// before getting a digital reading.
 	if (timer != NOT_ON_TIMER) turnOffPWM(timer);
+
+	#ifdef USE_VIRTUAL_PINS
+		if (pin>=NUM_DIGITAL_PINS)//then its a virtual pin...
+			vpins_in(port);
+	#endif
 
 	if (*portInputRegister(port) & bit) return HIGH;
 	return LOW;

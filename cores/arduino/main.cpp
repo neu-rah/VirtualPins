@@ -18,7 +18,6 @@
 */
 
 #include <Arduino.h>
-
 // Declared weak in Arduino.h to allow user redefinitions.
 int atexit(void (* /*func*/ )()) { return 0; }
 
@@ -33,20 +32,21 @@ void setupUSB() { }
 int main(void)
 {
 	init();
-
 	initVariant();
+	#ifdef USE_VIRTUAL_PINS
+		vpins_init();//initialize port/pin maps
+	#endif
 
 #if defined(USBCON)
 	USBDevice.attach();
 #endif
-	
+
 	setup();
-    
+
 	for (;;) {
 		loop();
 		if (serialEventRun) serialEventRun();
 	}
-        
+
 	return 0;
 }
-

@@ -23,6 +23,9 @@
 #ifndef Pins_Arduino_h
 #define Pins_Arduino_h
 
+//TODO: find a better place for this define bacause we have a duplicate on Arduino.h in order for this to work
+//#define USE_VIRTUAL_PINS//allow disabling of this feature for lib test purposes
+
 #include <avr/pgmspace.h>
 
 #define NUM_DIGITAL_PINS            20
@@ -109,7 +112,7 @@ static const uint8_t A7 = PIN_A7;
 //
 // 0-7 PE0-PE7   works
 // 8-13 PB0-PB5  works
-// 14-21 PA0-PA7 works 
+// 14-21 PA0-PA7 works
 // 22-29 PH0-PH7 works
 // 30-35 PG5-PG0 works
 // 36-43 PC7-PC0 works
@@ -129,6 +132,20 @@ const uint16_t PROGMEM port_to_mode_PGM[] = {
 	(uint16_t) &DDRB,
 	(uint16_t) &DDRC,
 	(uint16_t) &DDRD,
+#ifdef USE_VIRTUAL_PINS
+	NOT_A_PORT,
+	NOT_A_PORT,
+	NOT_A_PORT,
+	NOT_A_PORT,
+	NOT_A_PORT,
+	NOT_A_PORT,
+	NOT_A_PORT,
+	NOT_A_PORT,
+	(uint16_t) DDR_VPA,
+	(uint16_t) DDR_VPB,
+	(uint16_t) DDR_VPC,
+	(uint16_t) DDR_VPD,
+#endif
 };
 
 const uint16_t PROGMEM port_to_output_PGM[] = {
@@ -137,6 +154,20 @@ const uint16_t PROGMEM port_to_output_PGM[] = {
 	(uint16_t) &PORTB,
 	(uint16_t) &PORTC,
 	(uint16_t) &PORTD,
+#ifdef USE_VIRTUAL_PINS
+	NOT_A_PORT,//5
+	NOT_A_PORT,//6
+	NOT_A_PORT,//7
+	NOT_A_PORT,//8
+	NOT_A_PORT,//9
+	NOT_A_PORT,//10
+	NOT_A_PORT,//11
+	NOT_A_PORT,//12
+	(uint16_t) PORT_VPA,//13
+	(uint16_t) PORT_VPB,//14
+	(uint16_t) PORT_VPC,//15
+	(uint16_t) PORT_VPD,//16
+#endif
 };
 
 const uint16_t PROGMEM port_to_input_PGM[] = {
@@ -145,6 +176,20 @@ const uint16_t PROGMEM port_to_input_PGM[] = {
 	(uint16_t) &PINB,
 	(uint16_t) &PINC,
 	(uint16_t) &PIND,
+#ifdef USE_VIRTUAL_PINS
+	NOT_A_PORT,//5
+	NOT_A_PORT,//6
+	NOT_A_PORT,//7
+	NOT_A_PORT,//8
+	NOT_A_PORT,//9
+	NOT_A_PORT,//10
+	NOT_A_PORT,//11
+	NOT_A_PORT,//12
+	(uint16_t) PIN_VPA,//13
+	(uint16_t) PIN_VPB,//14
+	(uint16_t) PIN_VPC,//15
+	(uint16_t) PIN_VPD,//16
+#endif //USE_VIRTUAL_PINS
 };
 
 const uint8_t PROGMEM digital_pin_to_port_PGM[] = {
@@ -168,6 +213,45 @@ const uint8_t PROGMEM digital_pin_to_port_PGM[] = {
 	PC,
 	PC,
 	PC,
+
+#ifdef USE_VIRTUAL_PINS
+	VPA,
+	VPA,
+	VPA,
+	VPA,
+	VPA,
+	VPA,
+	VPA,
+	VPA,
+
+	VPB,
+	VPB,
+	VPB,
+	VPB,
+	VPB,
+	VPB,
+	VPB,
+	VPB,
+
+	VPC,
+	VPC,
+	VPC,
+	VPC,
+	VPC,
+	VPC,
+	VPC,
+	VPC,
+
+	VPD,
+	VPD,
+	VPD,
+	VPD,
+	VPD,
+	VPD,
+	VPD,
+	VPD,
+
+#endif //USE_VIRTUAL_PINS
 };
 
 const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
@@ -191,6 +275,40 @@ const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
 	_BV(3),
 	_BV(4),
 	_BV(5),
+#ifdef USE_VIRTUAL_PINS
+	_BV(0), /* 20, PORT_VPA */
+	_BV(1),
+	_BV(2),
+	_BV(3),
+	_BV(4),
+	_BV(5),
+	_BV(6),
+	_BV(7),
+	_BV(0), /* 28, port PORT_VPB */
+	_BV(1),
+	_BV(2),
+	_BV(3),
+	_BV(4),
+	_BV(5),
+	_BV(6),
+	_BV(7),
+	_BV(0), /* 36, port PORT_VPC */
+	_BV(1),
+	_BV(2),
+	_BV(3),
+	_BV(4),
+	_BV(5),
+	_BV(6),
+	_BV(7),
+	_BV(0), /* 44, port PORT_VPD */
+	_BV(1),
+	_BV(2),
+	_BV(3),
+	_BV(4),
+	_BV(5),
+	_BV(6),
+	_BV(7),
+#endif //USE_VIRTUAL_PINS
 };
 
 const uint8_t PROGMEM digital_pin_to_timer_PGM[] = {
@@ -229,6 +347,40 @@ const uint8_t PROGMEM digital_pin_to_timer_PGM[] = {
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
 	NOT_ON_TIMER,
+#ifdef USE_VIRTUAL_PINS
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+	NOT_ON_TIMER,
+#endif
 };
 
 #endif
