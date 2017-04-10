@@ -165,7 +165,7 @@ Here are most of the PROGMEM memory impact of virtual-pins changes.
 
 I've been sticking to existing maps and ways of doing things (at least on the original IDE).
 
-But i'm not dure if a more independent way of doing the map would be prefereable for porting this to other devices like due, stm, esp, etc... eventually making the list of virtual pins dynamic.
+But i'm not sure if a more independent way of doing the map would be prefereable for porting this to other devices like due, stm, esp, etc... eventually making the list of virtual pins dynamic.
 
 As it it makes easy to use virtual pins even if you use the arduino maps.
 
