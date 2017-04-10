@@ -411,23 +411,25 @@ This file was not ported from the old version yet and i expect it to be **a mess
 
 ## Considerations
 
+**this things are not part of the current implementation** even that some might be in future.
+
 Having a user specified amount of virtual ports brings along the concept of software ports. That is, ports that do not interface to hardware but instead correspond to memory to be exported from a particular sketch. Allowing data/record sharing over a network.
 
 > This is very interesting and its just a matter of deepening a bit more on the virtual pins side and break away from the current model of following AVR maps.
-> The maps mmay stioll exist for AVR's but checking pin range on entry rules out the virtual pins cases
+> The maps may still exist for AVR's but checking pin range on entry rules out the virtual pins cases
 > It is much more abrangent, because all boards define the number ou native hardware pins
-> and it only move the current performance burden from the end of the functions to the beggining.
+> and it only moves the current performance burden from the end of the functions to the begining.
 > I can live with that.
 
 use pin 0 to denote, not used (disables future usage of pin0/reset for other purposes)
 
-> Pin still available on drirect IO if you really nead it
+> Pin still available on drirect IO if you really need it
 > Make pinMode and digital read/write ignore the request on pin 0
-> (require extra boillerplate)
+> (require extra boillerplate => if (pin) ...)
 
-signal reverse pin logic by using negative numbers
+signal reverse pin logic by using negative pin numbers
 
-> Negate the logic on negative pins (require extra boillerplate)
+> Negate the logic on negative pins (require extra boillerplate => if(pin<0) ...)
 
 Extend this to PCINT (is there an arduino standard way of doing PCInt?) if not the see [PCINT Library](https://github.com/neu-rah/PCINT)
 
