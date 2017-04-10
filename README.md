@@ -10,7 +10,7 @@ Implementing abstraction of hardware connection making it seamless of the medium
 
 This abstrations allows the usage of libraries that are build for direct pin interfacing like the standard arduino Liquid Cristal library to use an LCD wired over shift-registers or I2C bus, with no need to change the library.
 
-This implementation is for all board variants that include the /home/azevedo/github/Arduino.1.8.3/hardware/arduino/avr/variants/standard/pins_arduino.h (as a demo/test)
+This implementation is for all board variants that include the hardware/arduino/avr/variants/standard/pins_arduino.h file (as a demo/test).
 
 tested on arduino nano and raw atmega328p.
 
