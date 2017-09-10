@@ -1,11 +1,15 @@
 # Arduino-VirtualPins proposal
 
 **All changes to Arduino core files are done to:**
-  - *cores/arduino/wiring_digital.c* : check for virtual pin call alternative function if so. This preserves compatibility.
-  - *cores/arduino/main.cpp* : startup initialization of pin tables. This preserves compatibility.
-  - *variants/standard/pins_arduino.h* : extending pin tables. This preserves compatibility
+  - *cores/arduino/wiring_digital.c* : check for virtual pin and call alternative function if so. This __preserves compatibility.__
+  - *cores/arduino/main.cpp* : startup initialization of pin tables. This __preserves compatibility.__
+
+**Added two new files to support virtual pins**
+  - *variants/standard/pins_arduino.h* : extending pin tables. This __preserves compatibility.__
+  - *variants/standard/pins_arduino.cpp* : virtual pins code. This __preserves compatibility.__
 
 All other implementations explained bellow are done by libraries.
+
 Also on this document are discussed non-compatible possibilities, but they are not implemented.
 
 ## Resume
