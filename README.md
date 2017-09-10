@@ -1,5 +1,13 @@
 # Arduino-VirtualPins proposal
 
+**All changes to Arduino core files are done to:**
+  - *cores/arduino/wiring_digital.c* : check for virtual pin call alternative function if so. This preserves compatibility.
+  - *cores/arduino/main.cpp* : startup initialization of pin tables. This preserves compatibility.
+  - *variants/standard/pins_arduino.h* : extending pin tables. This preserves compatibility
+
+All other implementations explained bellow are done by libraries.
+Also on this document are discussed non-compatible possibilities, but they are not implemented.
+
 ## Resume
 
 This is my proposal for slight change on arduino digital pins handling in order to provider user with virtual-pins.
@@ -120,7 +128,7 @@ Changes that have to be done in what concerns performance impact, as you can see
 #endif
 ```
 
-### changes to main.c
+### changes to main.cpp
 
 initialize virtual pins maps
 
@@ -181,7 +189,7 @@ so thing like this
 
 ```c++
 DDRD|=1<<2;
-DR_VPA|=1<<2;
+DDR_VPA|=1<<2;
 ```
 
 are still valid for virtual ports as they are for hardware ports.
